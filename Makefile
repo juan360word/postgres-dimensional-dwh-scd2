@@ -8,7 +8,7 @@ psql:
 	docker compose exec db psql -U de -d tienda_online
 
 load:
-	for f in sql/0[1-6]_*.sql; do echo ">> $$f"; $(PSQL) < $$f || exit 1; done
+	for f in sql/[1-6]_*.sql; do echo ">> $$f"; $(PSQL) < $$f || exit 1; done
 
 simulate:
 	$(PSQL) < sql/07_simular_cambios.sql
