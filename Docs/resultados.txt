@@ -1,0 +1,179 @@
+docker compose exec -T db psql -U de -d tienda_online -v ON_ERROR_STOP=1 -q < sql/8_queries_analiticas.sql
+
+== 1. Ventas y margen por año y trimestre ==
+ anio | trimestre | pedidos | unidades |  ventas   |  margen   | margen_pct 
+------+-----------+---------+----------+-----------+-----------+------------
+ 2024 |         1 |      29 |       76 | 105043200 |  29418600 |       28.0
+ 2024 |         2 |      33 |       87 | 128875800 |  34646900 |       26.9
+ 2024 |         3 |      34 |      105 | 167415650 |  44916450 |       26.8
+ 2024 |         4 |      39 |       97 | 150673300 |  45719700 |       30.3
+ 2025 |         1 |      44 |      125 | 209109650 |  52681850 |       25.2
+ 2025 |         2 |      67 |      214 | 309077150 |  85315650 |       27.6
+ 2025 |         3 |      88 |      253 | 369392550 | 105103650 |       28.5
+ 2025 |         4 |      94 |      250 | 423391550 | 123745950 |       29.2
+ 2026 |         1 |      98 |      298 | 469188350 | 134969050 |       28.8
+ 2026 |         2 |      77 |      243 | 385521300 | 111018200 |       28.8
+ 2026 |         3 |      71 |      222 | 344516200 |  95108300 |       27.6
+(11 rows)
+
+
+== 2. Ventas, margen y participación por categoría ==
+     categoria     |  ventas   | participacion_pct | margen_pct 
+-------------------+-----------+-------------------+------------
+ Fotografia        | 515145900 |              16.8 |       28.4
+ Televisores       | 509358650 |              16.6 |       26.1
+ Computadores      | 469665000 |              15.3 |       28.1
+ Celulares         | 432827650 |              14.1 |       26.3
+ Gaming            | 375787450 |              12.3 |       30.1
+ Electrodomesticos | 220511500 |               7.2 |       30.8
+ Oficina           | 190745500 |               6.2 |       29.4
+ Redes             | 154273250 |               5.0 |       31.2
+ Audio             | 100551500 |               3.3 |       27.3
+ Hogar inteligente |  93338300 |               3.0 |       26.5
+(10 rows)
+
+
+== 3. Top 3 productos por categoría ==
+     categoria     | posicion |              producto              |  ventas   
+-------------------+----------+------------------------------------+-----------
+ Audio             |        1 | Audifonos JBL S 30                 |  27659050
+ Audio             |        2 | Audifonos Sony 2025 54             |  25338000
+ Audio             |        3 | Audifonos Anker Pro 57             |  17311800
+ Celulares         |        1 | Celular Samsung Galaxy A Plus 78   |  64953600
+ Celulares         |        2 | Celular Xiaomi Redmi 2025 10       |  61806250
+ Celulares         |        3 | Celular Motorola Moto G Max 43     |  58996000
+ Computadores      |        1 | Portatil Acer Aspire Plus 78       |  85454600
+ Computadores      |        2 | Portatil HP Pavilion Eco 41        |  65673900
+ Computadores      |        3 | Portatil Acer Aspire Pro 24        |  55809600
+ Electrodomesticos |        1 | Electrodomestico Samurai S 65      |  39587900
+ Electrodomesticos |        2 | Electrodomestico Haceb Pro 54      |  37718200
+ Electrodomesticos |        3 | Electrodomestico Haceb Eco 12      |  35481300
+ Fotografia        |        1 | Camara Canon Max 90                |  83908350
+ Fotografia        |        2 | Camara Sony Max 59                 |  80599300
+ Fotografia        |        3 | Camara Canon X 96                  |  74359000
+ Gaming            |        1 | Gaming Corsair Max 69              |  65559000
+ Gaming            |        2 | Gaming HyperX Max 61               |  55725000
+ Gaming            |        3 | Gaming Redragon X 55               |  43006500
+ Hogar inteligente |        1 | Domotica Ring X 52                 |  16465400
+ Hogar inteligente |        2 | Domotica Ring Ultra 10             |  14037450
+ Hogar inteligente |        3 | Domotica Xiaomi Lite 49            |  13657800
+ Oficina           |        1 | Silla/Escritorio Gamer 2025 24     |  32503200
+ Oficina           |        2 | Silla/Escritorio Gamer S 46        |  32411200
+ Oficina           |        3 | Silla/Escritorio Ergonomica Pro 65 |  25955000
+ Redes             |        1 | Redes Ubiquiti Ultra 56            |  36285600
+ Redes             |        2 | Redes TP-Link Eco 21               |  27288000
+ Redes             |        3 | Redes D-Link Eco 40                |  25789800
+ Televisores       |        1 | Smart TV LG Eco 63                 | 100387350
+ Televisores       |        2 | Smart TV Samsung Ultra 70          |  78236500
+ Televisores       |        3 | Smart TV Samsung Eco 95            |  74759200
+(30 rows)
+
+
+== 4. Evolución mensual: variación vs mes anterior y acumulado del año ==
+ anio | mes |  ventas   | mes_anterior | variacion_pct | acumulado_anio 
+------+-----+-----------+--------------+---------------+----------------
+ 2024 |   1 |  34469800 |              |               |       34469800
+ 2024 |   2 |  29565500 |     34469800 |         -14.2 |       64035300
+ 2024 |   3 |  41007900 |     29565500 |          38.7 |      105043200
+ 2024 |   4 |  22014300 |     41007900 |         -46.3 |      127057500
+ 2024 |   5 |  45736950 |     22014300 |         107.8 |      172794450
+ 2024 |   6 |  61124550 |     45736950 |          33.6 |      233919000
+ 2024 |   7 |  47727500 |     61124550 |         -21.9 |      281646500
+ 2024 |   8 |  56221500 |     47727500 |          17.8 |      337868000
+ 2024 |   9 |  63466650 |     56221500 |          12.9 |      401334650
+ 2024 |  10 |  56860750 |     63466650 |         -10.4 |      458195400
+ 2024 |  11 |  41122200 |     56860750 |         -27.7 |      499317600
+ 2024 |  12 |  52690350 |     41122200 |          28.1 |      552007950
+ 2025 |   1 |  49705150 |     52690350 |          -5.7 |       49705150
+ 2025 |   2 |  31348450 |     49705150 |         -36.9 |       81053600
+ 2025 |   3 | 128056050 |     31348450 |         308.5 |      209109650
+ 2025 |   4 | 106513450 |    128056050 |         -16.8 |      315623100
+ 2025 |   5 | 114585700 |    106513450 |           7.6 |      430208800
+ 2025 |   6 |  87978000 |    114585700 |         -23.2 |      518186800
+ 2025 |   7 | 154623650 |     87978000 |          75.8 |      672810450
+ 2025 |   8 |  66398050 |    154623650 |         -57.1 |      739208500
+ 2025 |   9 | 148370850 |     66398050 |         123.5 |      887579350
+ 2025 |  10 | 189757000 |    148370850 |          27.9 |     1077336350
+ 2025 |  11 | 104408000 |    189757000 |         -45.0 |     1181744350
+ 2025 |  12 | 129226550 |    104408000 |          23.8 |     1310970900
+ 2026 |   1 | 186450100 |    129226550 |          44.3 |      186450100
+ 2026 |   2 | 178209900 |    186450100 |          -4.4 |      364660000
+ 2026 |   3 | 104528350 |    178209900 |         -41.3 |      469188350
+ 2026 |   4 | 120810650 |    104528350 |          15.6 |      589999000
+ 2026 |   5 | 153467450 |    120810650 |          27.0 |      743466450
+ 2026 |   6 | 111243200 |    153467450 |         -27.5 |      854709650
+ 2026 |   7 | 132444600 |    111243200 |          19.1 |      987154250
+ 2026 |   8 | 128679900 |    132444600 |          -2.8 |     1115834150
+ 2026 |   9 |  83391700 |    128679900 |         -35.2 |     1199225850
+(33 rows)
+
+
+== 5. Los 2 mejores clientes de cada ciudad (ciudad actual) ==
+    ciudad     | pos |      cliente       |  ventas  
+---------------+-----+--------------------+----------
+ Barranquilla  |   1 | Carlos Giraldo     | 20898600
+ Barranquilla  |   2 | Laura Sanchez      | 20648350
+ Bogota        |   1 | Paula Gonzalez     | 28509900
+ Bogota        |   2 | Fernando Martinez  | 18587300
+ Bucaramanga   |   1 | Alejandra Jimenez  | 31622600
+ Bucaramanga   |   2 | Sebastian Cardenas | 18522800
+ Cali          |   1 | Alejandra Salazar  | 20885500
+ Cali          |   2 | Natalia Moreno     | 18376000
+ Cartagena     |   1 | Andres Garcia      | 36784950
+ Cartagena     |   2 | Luis Diaz          | 26737000
+ Cucuta        |   1 | Laura Ortiz        | 33070200
+ Cucuta        |   2 | Felipe Sanchez     | 23674300
+ Ibague        |   1 | Andres Giraldo     | 23325000
+ Ibague        |   2 | Fernando Lopez     | 23107350
+ Manizales     |   1 | Camila Pineda      | 24811600
+ Manizales     |   2 | Maria Ramirez      | 19668000
+ Medellin      |   1 | Carlos Arias       | 15751650
+ Medellin      |   2 | Andrea Garcia      | 15518150
+ Pereira       |   1 | Camila Garcia      | 24806400
+ Pereira       |   2 | Tatiana Salazar    | 17498650
+ Santa Marta   |   1 | Natalia Diaz       | 19046600
+ Santa Marta   |   2 | Sofia Cardenas     | 18826850
+ Villavicencio |   1 | David Moreno       | 48259200
+ Villavicencio |   2 | Luis Martinez      | 27608100
+(24 rows)
+
+
+== 6. SCD2: segmento al comprar vs segmento actual ==
+ segmento_al_comprar | segmento_actual | lineas |   ventas   
+---------------------+-----------------+--------+------------
+ Corporativo         | Corporativo     |     75 |  167015000
+ Premium             | Premium         |    227 |  480497800
+ Regular             | Premium         |    111 |  333420950
+ Regular             | Regular         |    904 | 2081270950
+(4 rows)
+
+
+== 7. Cancelaciones y devoluciones por canal ==
+  canal   | pedidos | cancelados | devueltos | pct_perdidos 
+----------+---------+------------+-----------+--------------
+ app      |     208 |         34 |        12 |         22.1
+ tienda   |     129 |         17 |        11 |         21.7
+ telefono |      73 |         11 |         3 |         19.2
+ web      |     440 |         52 |        32 |         19.1
+(4 rows)
+
+
+== 8. Top 5 vendedores ==
+ posicion |    vendedor     | pedidos |  ventas   
+----------+-----------------+---------+-----------
+        1 | Carlos Diaz     |      24 | 136704150
+        2 | Carlos Cardenas |      23 | 129961800
+        3 | Paula Salazar   |      27 | 124126600
+        4 | Tatiana Pineda  |      26 | 111852250
+        5 | Maria Vargas    |      25 |  95774250
+(5 rows)
+
+
+== 9. Recompra: ¿cuántos clientes vuelven a comprar? ==
+  tipo_cliente   | clientes | pct  
+-----------------+----------+------
+ 1 compra        |      154 | 44.0
+ 2 compras       |      111 | 31.7
+ 3 o más compras |       85 | 24.3
+(3 rows)
+
