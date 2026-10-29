@@ -11,13 +11,13 @@ load:
 	for f in sql/[1-6]_*.sql; do echo ">> $$f"; $(PSQL) < $$f || exit 1; done
 
 simulate:
-	$(PSQL) < sql/07_simular_cambios.sql
+	$(PSQL) < sql/7_simular_cambios.sql
 
 queries:
-	$(PSQL) < sql/08_queries_analiticas.sql
+	$(PSQL) < sql/8_queries_analiticas.sql
 
 test:
-	$(PSQL) < sql/09_tests_calidad.sql
+	$(PSQL) < sql/9_tests_calidad.sql
 
 reset:
 	docker compose down -v && docker compose up -d
